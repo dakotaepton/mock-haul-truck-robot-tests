@@ -1,0 +1,1 @@
+{"speed": 255, "rpm": 8000, "fuel": 100, "payload": 255, "voltage": 255, "pressure": 500, "brake": 1, "brake_failure": 1, "can_bus_error": 0, "start_engine": 1, "emergency_stop": 1, "autonomy_mode": 1}

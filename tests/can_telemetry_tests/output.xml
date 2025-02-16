@@ -1,0 +1,1984 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generator="Robot 7.2.2 (Python 3.12.3 on linux)" generated="2025-02-16T14:32:44.273382" rpa="false" schemaversion="5">
+<suite id="s1" name="Telemetry Tests" source="/home/dakota/dev/mock-haul-truck-robot-tests/tests/can_telemetry_tests/telemetry_tests.robot">
+<kw name="Start Truck Simulator" owner="telemetry_keywords" type="SETUP">
+<kw name="Start Process" owner="Process">
+<msg time="2025-02-16T14:32:44.316954" level="INFO">Starting process:
+python ../../mock_can/truck_simulator.py</msg>
+<msg time="2025-02-16T14:32:44.320379" level="INFO">${SIMULATOR_PROCESS} = &lt;Popen: returncode: None args: ['python', '../../mock_can/truck_simulator.py']&gt;</msg>
+<var>${SIMULATOR_PROCESS}</var>
+<arg>python</arg>
+<arg>../../mock_can/truck_simulator.py</arg>
+<doc>Starts a new process on background.</doc>
+<status status="PASS" start="2025-02-16T14:32:44.316840" elapsed="0.003641"/>
+</kw>
+<kw name="Set Global Variable" owner="BuiltIn">
+<msg time="2025-02-16T14:32:44.321214" level="INFO">${SIMULATOR_PROCESS} = &lt;Popen: returncode: None args: ['python', '../../mock_can/truck_simulator.py']&gt;</msg>
+<arg>${SIMULATOR_PROCESS}</arg>
+<doc>Makes a variable available globally in all tests and suites.</doc>
+<status status="PASS" start="2025-02-16T14:32:44.320808" elapsed="0.000464"/>
+</kw>
+<doc>Start the truck simulator as a background process.</doc>
+<status status="PASS" start="2025-02-16T14:32:44.316541" elapsed="0.004837"/>
+</kw>
+<test id="s1-t1" name="Set Truck to Default State" line="25">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<msg time="2025-02-16T14:32:44.324170" level="INFO">Warning: Corrupt state file. Resetting state.</msg>
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:32:44.323022" elapsed="0.001212"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:32:46.324939" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:32:44.324430" elapsed="2.000869"/>
+</kw>
+<arg>speed=0</arg>
+<arg>rpm=0</arg>
+<arg>fuel=0</arg>
+<arg>payload=0</arg>
+<arg>voltage=0</arg>
+<arg>pressure=0</arg>
+<arg>brake=0</arg>
+<arg>brake_failure=0</arg>
+<arg>start_engine=0</arg>
+<arg>emergency_stop=0</arg>
+<arg>autonomy_mode=0</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:32:44.322376" elapsed="2.003244"/>
+</kw>
+<doc>Reset the truck to a default where all telemetry values are zero.</doc>
+<status status="PASS" start="2025-02-16T14:32:44.321493" elapsed="2.005041"/>
+</test>
+<test id="s1-t2" name="Verify Speed Clamps to Minimum" line="32">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:32:46.331567" elapsed="0.004855"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:32:48.337748" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:32:46.336978" elapsed="2.001202"/>
+</kw>
+<arg>speed=-1</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:32:46.329928" elapsed="2.008599"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:32:48.342361" level="INFO">${msg} = 0</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:32:48.341001" elapsed="0.001494"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:32:48.344027" level="INFO">${expected_value} = 0</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:32:48.343003" elapsed="0.001173"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:32:48.344619" elapsed="0.000912"/>
+</kw>
+<arg>${SPEED_CAN_ID}</arg>
+<arg>0</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:32:48.339379" elapsed="0.006405"/>
+</kw>
+<doc>Attempt to set speed below 0 and verify it is clamped to 0.</doc>
+<status status="PASS" start="2025-02-16T14:32:46.328276" elapsed="2.018122"/>
+</test>
+<test id="s1-t3" name="Verify Speed Within Valid Range" line="37">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:32:48.350740" elapsed="0.005264"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:32:50.357578" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:32:48.356836" elapsed="2.001077"/>
+</kw>
+<arg>speed=50</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:32:48.349278" elapsed="2.008945"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:32:50.361155" level="INFO">${msg} = 50</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:32:50.360234" elapsed="0.001038"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:32:50.363304" level="INFO">${expected_value} = 50</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:32:50.361715" elapsed="0.001701"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:32:50.363839" elapsed="0.000756"/>
+</kw>
+<arg>${SPEED_CAN_ID}</arg>
+<arg>50</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:32:50.358988" elapsed="0.005851"/>
+</kw>
+<doc>Set a valid speed and ensure it is correctly transmitted.</doc>
+<status status="PASS" start="2025-02-16T14:32:48.347745" elapsed="2.017577"/>
+</test>
+<test id="s1-t4" name="Verify Speed Clamps to Maximum" line="42">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:32:50.370026" elapsed="0.003619"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:32:52.374636" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:32:50.374200" elapsed="2.000607"/>
+</kw>
+<arg>speed=300</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:32:50.367838" elapsed="2.007115"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:32:52.376381" level="INFO">${msg} = 255</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:32:52.375954" elapsed="0.000483"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:32:52.377072" level="INFO">${expected_value} = 255</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:32:52.376644" elapsed="0.000487"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:32:52.377341" elapsed="0.000354"/>
+</kw>
+<arg>${SPEED_CAN_ID}</arg>
+<arg>255</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:32:52.375378" elapsed="0.002437"/>
+</kw>
+<doc>Attempt to set speed above 255 and verify it is clamped to 255.</doc>
+<status status="PASS" start="2025-02-16T14:32:50.366416" elapsed="2.011631"/>
+</test>
+<test id="s1-t5" name="Verify RPM Clamps to Minimum" line="49">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:32:52.380021" elapsed="0.002078"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:32:54.382717" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:32:52.382308" elapsed="2.000673"/>
+</kw>
+<arg>rpm=-50</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:32:52.379350" elapsed="2.003924"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:32:54.386114" level="INFO">${msg} = 0</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:32:54.385246" elapsed="0.000972"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:32:54.387320" level="INFO">${expected_value} = 0</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:32:54.386584" elapsed="0.000829"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:32:54.387752" elapsed="0.000641"/>
+</kw>
+<arg>${RPM_CAN_ID}</arg>
+<arg>0</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:32:54.383911" elapsed="0.004692"/>
+</kw>
+<doc>Attempt to set RPM below 0 and verify it is clamped to 0.</doc>
+<status status="PASS" start="2025-02-16T14:32:52.378628" elapsed="2.010373"/>
+</test>
+<test id="s1-t6" name="Verify RPM Within Valid Range" line="54">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:32:54.393234" elapsed="0.004336"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:32:56.398726" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:32:54.398006" elapsed="2.001075"/>
+</kw>
+<arg>rpm=4000</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:32:54.391204" elapsed="2.008173"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:32:56.403224" level="INFO">${msg} = 4000</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:32:56.401480" elapsed="0.001865"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:32:56.404652" level="INFO">${expected_value} = 4000</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:32:56.403783" elapsed="0.000979"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:32:56.405206" elapsed="0.000708"/>
+</kw>
+<arg>${RPM_CAN_ID}</arg>
+<arg>4000</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:32:56.400202" elapsed="0.005987"/>
+</kw>
+<doc>Set a valid RPM and ensure it is correctly transmitted.</doc>
+<status status="PASS" start="2025-02-16T14:32:54.389961" elapsed="2.016737"/>
+</test>
+<test id="s1-t7" name="Verify RPM Clamps to Maximum" line="59">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:32:56.412039" elapsed="0.004732"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:32:58.417989" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:32:56.417403" elapsed="2.000759"/>
+</kw>
+<arg>rpm=9000</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:32:56.410600" elapsed="2.007683"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:32:58.419488" level="INFO">${msg} = 8000</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:32:58.419121" elapsed="0.000493"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:32:58.420152" level="INFO">${expected_value} = 8000</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:32:58.419794" elapsed="0.000403"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:32:58.420368" elapsed="0.000330"/>
+</kw>
+<arg>${RPM_CAN_ID}</arg>
+<arg>8000</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:32:58.418619" elapsed="0.002180"/>
+</kw>
+<doc>Attempt to set RPM above 8000 and verify it is clamped to 8000.</doc>
+<status status="PASS" start="2025-02-16T14:32:56.408387" elapsed="2.012604"/>
+</test>
+<test id="s1-t8" name="Verify Fuel Clamps to Minimum" line="66">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:32:58.422836" elapsed="0.002154"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:00.425741" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:32:58.425272" elapsed="2.000977"/>
+</kw>
+<arg>fuel=-5</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:32:58.422191" elapsed="2.004397"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:00.429778" level="INFO">${msg} = 0</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:00.428610" elapsed="0.001284"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:00.431532" level="INFO">${expected_value} = 0</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:00.430355" elapsed="0.001290"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:00.432102" elapsed="0.001296"/>
+</kw>
+<arg>${FUEL_CAN_ID}</arg>
+<arg>0</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:00.427378" elapsed="0.006294"/>
+</kw>
+<doc>Attempt to set fuel below 0 and verify it is clamped to 0.</doc>
+<status status="PASS" start="2025-02-16T14:32:58.421517" elapsed="2.012776"/>
+</test>
+<test id="s1-t9" name="Verify Fuel Within Valid Range" line="71">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:00.440237" elapsed="0.004667"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:02.445783" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:00.445374" elapsed="2.000533"/>
+</kw>
+<arg>fuel=75</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:00.438288" elapsed="2.007724"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:02.447231" level="INFO">${msg} = 75</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:02.446828" elapsed="0.000428"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:02.448032" level="INFO">${expected_value} = 75</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:02.447341" elapsed="0.000721"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:02.448149" elapsed="0.000150"/>
+</kw>
+<arg>${FUEL_CAN_ID}</arg>
+<arg>75</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:02.446548" elapsed="0.001800"/>
+</kw>
+<doc>Set a valid fuel level and ensure it is correctly transmitted.</doc>
+<status status="PASS" start="2025-02-16T14:33:00.436437" elapsed="2.012094"/>
+</test>
+<test id="s1-t10" name="Verify Fuel Clamps to Maximum" line="76">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:02.449317" elapsed="0.000868"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:04.450607" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:02.450282" elapsed="2.000559"/>
+</kw>
+<arg>fuel=150</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:02.449057" elapsed="2.001994"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:04.453171" level="INFO">${msg} = 100</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:04.452484" elapsed="0.000771"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:04.454270" level="INFO">${expected_value} = 100</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:04.453649" elapsed="0.000699"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:04.454645" elapsed="0.000514"/>
+</kw>
+<arg>${FUEL_CAN_ID}</arg>
+<arg>100</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:04.451653" elapsed="0.003676"/>
+</kw>
+<doc>Attempt to set fuel above 100 and verify it is clamped to 100.</doc>
+<status status="PASS" start="2025-02-16T14:33:02.448772" elapsed="2.007017"/>
+</test>
+<test id="s1-t11" name="Verify Payload Clamps to Minimum" line="83">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:04.458540" elapsed="0.002944"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:06.462315" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:04.461838" elapsed="2.000772"/>
+</kw>
+<arg>payload=-10</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:04.457596" elapsed="2.005291"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:06.465863" level="INFO">${msg} = 0</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:06.464820" elapsed="0.001160"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:06.467499" level="INFO">${expected_value} = 0</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:06.466491" elapsed="0.001203"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:06.468386" elapsed="0.000889"/>
+</kw>
+<arg>${PAYLOAD_CAN_ID}</arg>
+<arg>0</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:06.463656" elapsed="0.005881"/>
+</kw>
+<doc>Attempt to set payload below 0 and verify it is clamped to 0.</doc>
+<status status="PASS" start="2025-02-16T14:33:04.456602" elapsed="2.013406"/>
+</test>
+<test id="s1-t12" name="Verify Payload Within Valid Range" line="88">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:06.474645" elapsed="0.004204"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:08.479891" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:06.479417" elapsed="2.000793"/>
+</kw>
+<arg>payload=120</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:06.473242" elapsed="2.007262"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:08.483477" level="INFO">${msg} = 120</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:08.482155" elapsed="0.001409"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:08.484490" level="INFO">${expected_value} = 120</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:08.483866" elapsed="0.000703"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:08.484861" elapsed="0.000555"/>
+</kw>
+<arg>${PAYLOAD_CAN_ID}</arg>
+<arg>120</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:08.481266" elapsed="0.004326"/>
+</kw>
+<doc>Set a valid payload and ensure it is correctly transmitted.</doc>
+<status status="PASS" start="2025-02-16T14:33:06.471582" elapsed="2.014334"/>
+</test>
+<test id="s1-t13" name="Verify Payload Clamps to Maximum" line="93">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:08.488762" elapsed="0.003498"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:10.493186" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:08.492614" elapsed="2.000826"/>
+</kw>
+<arg>payload=300</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:08.487797" elapsed="2.005873"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:10.496169" level="INFO">${msg} = 255</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:10.495271" elapsed="0.000998"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:10.497328" level="INFO">${expected_value} = 255</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:10.496614" elapsed="0.000804"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:10.497761" elapsed="0.000608"/>
+</kw>
+<arg>${PAYLOAD_CAN_ID}</arg>
+<arg>255</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:10.494321" elapsed="0.004248"/>
+</kw>
+<doc>Attempt to set payload above 255 and verify it is clamped to 255.</doc>
+<status status="PASS" start="2025-02-16T14:33:08.486776" elapsed="2.012166"/>
+</test>
+<test id="s1-t14" name="Verify Voltage Clamps to Minimum" line="100">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:10.502516" elapsed="0.003680"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:12.507237" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:10.506626" elapsed="2.000717"/>
+</kw>
+<arg>voltage=-2</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:10.501360" elapsed="2.006070"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:12.508152" level="INFO">${msg} = 0</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:12.507939" elapsed="0.000234"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:12.508398" level="INFO">${expected_value} = 0</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:12.508248" elapsed="0.000169"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:12.508489" elapsed="0.000122"/>
+</kw>
+<arg>${VOLTAGE_CAN_ID}</arg>
+<arg>0</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:12.507676" elapsed="0.000976"/>
+</kw>
+<doc>Attempt to set voltage below 0 and verify it is clamped to 0.</doc>
+<status status="PASS" start="2025-02-16T14:33:10.499864" elapsed="2.008878"/>
+</test>
+<test id="s1-t15" name="Verify Voltage Within Valid Range" line="105">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:12.509455" elapsed="0.000841"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:14.510760" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:12.510386" elapsed="2.000805"/>
+</kw>
+<arg>voltage=26</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:12.509213" elapsed="2.002242"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:14.516213" level="INFO">${msg} = 26</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:14.514317" elapsed="0.002073"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:14.517932" level="INFO">${expected_value} = 26</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:14.517095" elapsed="0.000942"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:14.518462" elapsed="0.000909"/>
+</kw>
+<arg>${VOLTAGE_CAN_ID}</arg>
+<arg>26</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:14.512155" elapsed="0.007448"/>
+</kw>
+<doc>Set a valid voltage and ensure it is correctly transmitted.</doc>
+<status status="PASS" start="2025-02-16T14:33:12.508953" elapsed="2.011066"/>
+</test>
+<test id="s1-t16" name="Verify Voltage Clamps to Maximum" line="110">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:14.522998" elapsed="0.003568"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:16.527537" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:14.527076" elapsed="2.000674"/>
+</kw>
+<arg>voltage=300</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:14.521922" elapsed="2.006010"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:16.530105" level="INFO">${msg} = 255</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:16.529393" elapsed="0.000791"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:16.531035" level="INFO">${expected_value} = 255</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:16.530484" elapsed="0.000645"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:16.531425" elapsed="0.000453"/>
+</kw>
+<arg>${VOLTAGE_CAN_ID}</arg>
+<arg>255</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:16.528453" elapsed="0.003582"/>
+</kw>
+<doc>Attempt to set voltage above 255 and verify it is clamped to 255.</doc>
+<status status="PASS" start="2025-02-16T14:33:14.520967" elapsed="2.011382"/>
+</test>
+<test id="s1-t17" name="Verify Pressure Clamps to Minimum" line="117">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:16.534957" elapsed="0.003240"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:18.538992" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:16.538590" elapsed="2.000572"/>
+</kw>
+<arg>pressure=-10</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:16.534084" elapsed="2.005204"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:18.540606" level="INFO">${msg} = 0</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:18.540144" elapsed="0.000508"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:18.541214" level="INFO">${expected_value} = 0</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:18.540843" elapsed="0.000417"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:18.541514" elapsed="0.000293"/>
+</kw>
+<arg>${PRESSURE_CAN_ID}</arg>
+<arg>0</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:18.539645" elapsed="0.002260"/>
+</kw>
+<doc>Attempt to set pressure below 0 and verify it is clamped to 0.</doc>
+<status status="PASS" start="2025-02-16T14:33:16.533103" elapsed="2.009053"/>
+</test>
+<test id="s1-t18" name="Verify Pressure Within Valid Range" line="122">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:18.544031" elapsed="0.001858"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:20.546510" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:18.546203" elapsed="2.000393"/>
+</kw>
+<arg>pressure=300</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:18.543475" elapsed="2.003183"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:20.547433" level="INFO">${msg} = 300</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:20.547218" elapsed="0.000234"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:20.547672" level="INFO">${expected_value} = 300</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:20.547525" elapsed="0.000165"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:20.547761" elapsed="0.000120"/>
+</kw>
+<arg>${PRESSURE_CAN_ID}</arg>
+<arg>300</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:20.546832" elapsed="0.001090"/>
+</kw>
+<doc>Set a valid hydraulic pressure and ensure it is correctly transmitted.</doc>
+<status status="PASS" start="2025-02-16T14:33:18.542672" elapsed="2.005331"/>
+</test>
+<test id="s1-t19" name="Verify Pressure Clamps to Maximum" line="127">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:20.548701" elapsed="0.000785"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:22.549836" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:20.549571" elapsed="2.000348"/>
+</kw>
+<arg>pressure=600</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:20.548474" elapsed="2.001510"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:22.550598" level="INFO">${msg} = 500</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:22.550392" elapsed="0.000226"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:22.550839" level="INFO">${expected_value} = 500</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:22.550691" elapsed="0.000166"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:22.550928" elapsed="0.000120"/>
+</kw>
+<arg>${PRESSURE_CAN_ID}</arg>
+<arg>500</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:22.550165" elapsed="0.000929"/>
+</kw>
+<doc>Attempt to set pressure above 500 and verify it is clamped to 500.</doc>
+<status status="PASS" start="2025-02-16T14:33:20.548220" elapsed="2.002955"/>
+</test>
+<test id="s1-t20" name="Verify Brake Clamps to Minimum" line="134">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:22.551898" elapsed="0.000873"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:24.553234" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:22.552872" elapsed="2.000645"/>
+</kw>
+<arg>brake=-1</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:22.551637" elapsed="2.002134"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:24.556676" level="INFO">${msg} = 0</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:24.555579" elapsed="0.001204"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:24.558028" level="INFO">${expected_value} = 0</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:24.557246" elapsed="0.000918"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:24.558568" elapsed="0.000664"/>
+</kw>
+<arg>${BRAKE_CAN_ID}</arg>
+<arg>0</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:24.554489" elapsed="0.004967"/>
+</kw>
+<doc>Attempt to set brake below 0 and verify it is clamped to 0.</doc>
+<status status="PASS" start="2025-02-16T14:33:22.551388" elapsed="2.008496"/>
+</test>
+<test id="s1-t21" name="Verify Brake Within Valid Range" line="139">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:24.564273" elapsed="0.004345"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:26.569765" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:24.569144" elapsed="2.000900"/>
+</kw>
+<arg>brake=1</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:24.562948" elapsed="2.007422"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:26.574044" level="INFO">${msg} = 1</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:26.572943" elapsed="0.001283"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:26.575480" level="INFO">${expected_value} = 1</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:26.574625" elapsed="0.000966"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:26.575972" elapsed="0.000769"/>
+</kw>
+<arg>${BRAKE_CAN_ID}</arg>
+<arg>1</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:26.571046" elapsed="0.005942"/>
+</kw>
+<doc>Set a valid brake value and ensure it is correctly transmitted.</doc>
+<status status="PASS" start="2025-02-16T14:33:24.561408" elapsed="2.016055"/>
+</test>
+<test id="s1-t22" name="Verify Brake Clamps to Maximum" line="144">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:26.581305" elapsed="0.004206"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:28.586969" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:26.585983" elapsed="2.001320"/>
+</kw>
+<arg>brake=2</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:26.580012" elapsed="2.007548"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:28.590569" level="INFO">${msg} = 1</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:28.589388" elapsed="0.001322"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:28.592006" level="INFO">${expected_value} = 1</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:28.591157" elapsed="0.000991"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:28.592533" elapsed="0.000667"/>
+</kw>
+<arg>${BRAKE_CAN_ID}</arg>
+<arg>1</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:28.588327" elapsed="0.005103"/>
+</kw>
+<doc>Attempt to set brake above 1 and verify it is clamped to 1.</doc>
+<status status="PASS" start="2025-02-16T14:33:26.578670" elapsed="2.015420"/>
+</test>
+<test id="s1-t23" name="Verify Brake Failure Clamps to Minimum" line="151">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:28.598503" elapsed="0.004524"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:30.604121" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:28.603540" elapsed="2.000866"/>
+</kw>
+<arg>brake_failure=-1</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:28.596978" elapsed="2.007659"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:30.607837" level="INFO">${msg} = 0</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:30.606481" elapsed="0.001460"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:30.609036" level="INFO">${expected_value} = 0</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:30.608327" elapsed="0.000826"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:30.609491" elapsed="0.000617"/>
+</kw>
+<arg>${BRAKE_FAILURE_ID}</arg>
+<arg>0</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:30.605279" elapsed="0.005031"/>
+</kw>
+<doc>Attempt to set brake failure below 0 and verify it is clamped to 0.</doc>
+<status status="PASS" start="2025-02-16T14:33:28.595354" elapsed="2.015345"/>
+</test>
+<test id="s1-t24" name="Verify Brake Failure Within Valid Range" line="156">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:30.614091" elapsed="0.003662"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:32.618790" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:30.618213" elapsed="2.000907"/>
+</kw>
+<arg>brake_failure=1</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:30.612919" elapsed="2.006488"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:32.623653" level="INFO">${msg} = 1</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:32.622418" elapsed="0.001352"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:32.624932" level="INFO">${expected_value} = 1</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:32.624222" elapsed="0.000792"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:32.625358" elapsed="0.000495"/>
+</kw>
+<arg>${BRAKE_FAILURE_ID}</arg>
+<arg>1</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:32.620469" elapsed="0.005551"/>
+</kw>
+<doc>Set a valid brake failure value and ensure it is correctly transmitted.</doc>
+<status status="PASS" start="2025-02-16T14:33:30.611618" elapsed="2.014832"/>
+</test>
+<test id="s1-t25" name="Verify Brake Failure Clamps to Maximum" line="161">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:32.629576" elapsed="0.002179"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:34.632482" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:32.632014" elapsed="2.000815"/>
+</kw>
+<arg>brake_failure=2</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:32.628611" elapsed="2.004543"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:34.636316" level="INFO">${msg} = 1</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:34.635036" elapsed="0.001400"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:34.637724" level="INFO">${expected_value} = 1</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:34.636881" elapsed="0.000952"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:34.638273" elapsed="0.000746"/>
+</kw>
+<arg>${BRAKE_FAILURE_ID}</arg>
+<arg>1</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:34.633892" elapsed="0.005419"/>
+</kw>
+<doc>Attempt to set brake failure above 1 and verify it is clamped to 1.</doc>
+<status status="PASS" start="2025-02-16T14:33:32.627562" elapsed="2.012331"/>
+</test>
+<test id="s1-t26" name="Verify Start Engine Clamps to Minimum" line="168">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:34.644483" elapsed="0.004638"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:36.650820" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:34.649962" elapsed="2.001207"/>
+</kw>
+<arg>start_engine=-1</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:34.643048" elapsed="2.008401"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:36.654865" level="INFO">${msg} = 0</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:36.653557" elapsed="0.001428"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:36.656413" level="INFO">${expected_value} = 0</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:36.655544" elapsed="0.000980"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:36.656940" elapsed="0.000717"/>
+</kw>
+<arg>${START_ENGINE_ID}</arg>
+<arg>0</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:36.652209" elapsed="0.005688"/>
+</kw>
+<doc>Attempt to set start engine below 0 and verify it is clamped to 0.</doc>
+<status status="PASS" start="2025-02-16T14:33:34.641372" elapsed="2.017013"/>
+</test>
+<test id="s1-t27" name="Verify Start Engine Within Valid Range" line="173">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:36.662427" elapsed="0.004530"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:38.668154" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:36.667529" elapsed="2.001338"/>
+</kw>
+<arg>start_engine=1</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:36.661021" elapsed="2.008026"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:38.671383" level="INFO">${msg} = 1</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:38.670314" elapsed="0.001149"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:38.672381" level="INFO">${expected_value} = 1</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:38.671768" elapsed="0.000686"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:38.672727" elapsed="0.000641"/>
+</kw>
+<arg>${START_ENGINE_ID}</arg>
+<arg>1</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:38.669561" elapsed="0.004101"/>
+</kw>
+<doc>Set a valid start engine command and ensure it is correctly transmitted.</doc>
+<status status="PASS" start="2025-02-16T14:33:36.659502" elapsed="2.014465"/>
+</test>
+<test id="s1-t28" name="Verify Start Engine Clamps to Maximum" line="178">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:38.676781" elapsed="0.002844"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:40.680510" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:38.680000" elapsed="2.000698"/>
+</kw>
+<arg>start_engine=2</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:38.675643" elapsed="2.005221"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:40.682135" level="INFO">${msg} = 1</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:40.681682" elapsed="0.000492"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:40.682604" level="INFO">${expected_value} = 1</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:40.682319" elapsed="0.000322"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:40.682782" elapsed="0.000236"/>
+</kw>
+<arg>${START_ENGINE_ID}</arg>
+<arg>1</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:40.681264" elapsed="0.001849"/>
+</kw>
+<doc>Attempt to set start engine above 1 and verify it is clamped to 1.</doc>
+<status status="PASS" start="2025-02-16T14:33:38.674687" elapsed="2.008646"/>
+</test>
+<test id="s1-t29" name="Verify Emergency Stop Clamps to Minimum" line="185">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:40.684715" elapsed="0.001536"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:42.686789" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:40.686452" elapsed="2.000446"/>
+</kw>
+<arg>emergency_stop=-1</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:40.684258" elapsed="2.002724"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:42.687879" level="INFO">${msg} = 0</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:42.687543" elapsed="0.000364"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:42.688285" level="INFO">${expected_value} = 0</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:42.688017" elapsed="0.000296"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:42.688423" elapsed="0.000180"/>
+</kw>
+<arg>${EMERGENCY_STOP_ID}</arg>
+<arg>0</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:42.687223" elapsed="0.001442"/>
+</kw>
+<doc>Attempt to set emergency stop below 0 and verify it is clamped to 0.</doc>
+<status status="PASS" start="2025-02-16T14:33:40.683726" elapsed="2.005061"/>
+</test>
+<test id="s1-t30" name="Verify Emergency Stop Within Valid Range" line="190">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:42.689854" elapsed="0.001346"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:44.691697" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:42.691351" elapsed="2.000646"/>
+</kw>
+<arg>emergency_stop=1</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:42.689501" elapsed="2.002858"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:44.696765" level="INFO">${msg} = 1</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:44.694856" elapsed="0.002033"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:44.698258" level="INFO">${expected_value} = 1</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:44.697376" elapsed="0.000994"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:44.698791" elapsed="0.000748"/>
+</kw>
+<arg>${EMERGENCY_STOP_ID}</arg>
+<arg>1</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:44.693406" elapsed="0.006375"/>
+</kw>
+<doc>Set a valid emergency stop command and ensure it is correctly transmitted.</doc>
+<status status="PASS" start="2025-02-16T14:33:42.689099" elapsed="2.011181"/>
+</test>
+<test id="s1-t31" name="Verify Emergency Stop Clamps to Maximum" line="195">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:44.705025" elapsed="0.004994"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:46.711037" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:44.710566" elapsed="2.000685"/>
+</kw>
+<arg>emergency_stop=2</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:44.703482" elapsed="2.007930"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:46.713613" level="INFO">${msg} = 1</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:46.712771" elapsed="0.000905"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:46.714409" level="INFO">${expected_value} = 1</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:46.713905" elapsed="0.000572"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:46.714748" elapsed="0.000402"/>
+</kw>
+<arg>${EMERGENCY_STOP_ID}</arg>
+<arg>1</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:46.711959" elapsed="0.003323"/>
+</kw>
+<doc>Attempt to set emergency stop above 1 and verify it is clamped to 1.</doc>
+<status status="PASS" start="2025-02-16T14:33:44.701389" elapsed="2.014142"/>
+</test>
+<test id="s1-t32" name="Verify Autonomy Mode Clamps to Minimum" line="202">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:46.717949" elapsed="0.003284"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:48.722231" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:46.721749" elapsed="2.000803"/>
+</kw>
+<arg>autonomy_mode=-1</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:46.717233" elapsed="2.005626"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:48.725769" level="INFO">${msg} = 0</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:48.724702" elapsed="0.001163"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:48.726840" level="INFO">${expected_value} = 0</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:48.726231" elapsed="0.000670"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:48.727219" elapsed="0.000577"/>
+</kw>
+<arg>${AUTONOMY_MODE_ID}</arg>
+<arg>0</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:48.723692" elapsed="0.004241"/>
+</kw>
+<doc>Attempt to set autonomy mode below 0 and verify it is clamped to 0.</doc>
+<status status="PASS" start="2025-02-16T14:33:46.716225" elapsed="2.011982"/>
+</test>
+<test id="s1-t33" name="Verify Autonomy Mode Within Valid Range" line="207">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:48.730025" elapsed="0.002165"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:50.732824" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:48.732399" elapsed="2.000743"/>
+</kw>
+<arg>autonomy_mode=1</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:48.729470" elapsed="2.003940"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:50.736906" level="INFO">${msg} = 1</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:50.735468" elapsed="0.001576"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:50.738404" level="INFO">${expected_value} = 1</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:50.737534" elapsed="0.000979"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:50.738922" elapsed="0.000723"/>
+</kw>
+<arg>${AUTONOMY_MODE_ID}</arg>
+<arg>1</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:50.734287" elapsed="0.005591"/>
+</kw>
+<doc>Set a valid autonomy mode command and ensure it is correctly transmitted.</doc>
+<status status="PASS" start="2025-02-16T14:33:48.728805" elapsed="2.011552"/>
+</test>
+<test id="s1-t34" name="Verify Autonomy Mode Clamps to Maximum" line="212">
+<kw name="Set Truck Telemetry" owner="telemetry_keywords">
+<kw name="Set Truck State" owner="CANLibrary">
+<arg>speed=${speed}</arg>
+<arg>rpm=${rpm}</arg>
+<arg>fuel=${fuel}</arg>
+<arg>payload=${payload}</arg>
+<arg>voltage=${voltage}</arg>
+<arg>pressure=${pressure}</arg>
+<arg>brake=${brake}</arg>
+<arg>brake_failure=${brake_failure}</arg>
+<arg>start_engine=${start_engine}</arg>
+<arg>emergency_stop=${emergency_stop}</arg>
+<arg>autonomy_mode=${autonomy_mode}</arg>
+<doc>Modify the truck state JSON file safely with correct data types.</doc>
+<status status="PASS" start="2025-02-16T14:33:50.744435" elapsed="0.004596"/>
+</kw>
+<kw name="Sleep" owner="BuiltIn">
+<msg time="2025-02-16T14:33:52.750089" level="INFO">Slept 2 seconds.</msg>
+<arg>2</arg>
+<doc>Pauses the test executed for the given time.</doc>
+<status status="PASS" start="2025-02-16T14:33:50.749572" elapsed="2.000606"/>
+</kw>
+<arg>autonomy_mode=2</arg>
+<doc>Set the truck telemetry state based on provided values.</doc>
+<status status="PASS" start="2025-02-16T14:33:50.743050" elapsed="2.007195"/>
+</kw>
+<kw name="Verify CAN Message" owner="telemetry_keywords">
+<kw name="Wait For Can Message" owner="CANLibrary">
+<msg time="2025-02-16T14:33:52.750951" level="INFO">${msg} = 1</msg>
+<var>${msg}</var>
+<arg>${can_id}</arg>
+<doc>Wait for a specific CAN message and always return an integer.</doc>
+<status status="PASS" start="2025-02-16T14:33:52.750683" elapsed="0.000350"/>
+</kw>
+<kw name="Evaluate" owner="BuiltIn">
+<msg time="2025-02-16T14:33:52.751336" level="INFO">${expected_value} = 1</msg>
+<var>${expected_value}</var>
+<arg>int(${expected_value})</arg>
+<doc>Evaluates the given expression in Python and returns the result.</doc>
+<status status="PASS" start="2025-02-16T14:33:52.751159" elapsed="0.000198"/>
+</kw>
+<kw name="Should Be Equal" owner="BuiltIn">
+<arg>${msg}</arg>
+<arg>${expected_value}</arg>
+<doc>Fails if the given objects are unequal.</doc>
+<status status="PASS" start="2025-02-16T14:33:52.751434" elapsed="0.000133"/>
+</kw>
+<arg>${AUTONOMY_MODE_ID}</arg>
+<arg>1</arg>
+<doc>Wait for a CAN message and verify its value.</doc>
+<status status="PASS" start="2025-02-16T14:33:52.750433" elapsed="0.001181"/>
+</kw>
+<doc>Attempt to set autonomy mode above 1 and verify it is clamped to 1.</doc>
+<status status="PASS" start="2025-02-16T14:33:50.741560" elapsed="2.010143"/>
+</test>
+<test id="s1-t35" name="Shutdown Truck Simulator" line="219">
+<kw name="Terminate Process" owner="Process">
+<msg time="2025-02-16T14:33:52.752367" level="INFO">Gracefully terminating process.</msg>
+<msg time="2025-02-16T14:33:52.853013" level="INFO">Process completed.</msg>
+<arg>${SIMULATOR_PROCESS}</arg>
+<doc>Stops the process gracefully or forcefully.</doc>
+<status status="PASS" start="2025-02-16T14:33:52.752175" elapsed="0.101183"/>
+</kw>
+<doc>Ensure the truck simulator is properly terminated after tests.</doc>
+<status status="PASS" start="2025-02-16T14:33:52.751922" elapsed="0.101994"/>
+</test>
+<kw name="Shutdown Truck Simulator" owner="telemetry_keywords" type="TEARDOWN">
+<kw name="Terminate Process" owner="Process">
+<msg time="2025-02-16T14:33:52.857758" level="INFO">Gracefully terminating process.</msg>
+<msg time="2025-02-16T14:33:52.858024" level="INFO">Process completed.</msg>
+<arg>${SIMULATOR_PROCESS}</arg>
+<doc>Stops the process gracefully or forcefully.</doc>
+<status status="PASS" start="2025-02-16T14:33:52.857121" elapsed="0.001116"/>
+</kw>
+<doc>Ensure the truck simulator is properly terminated after tests.</doc>
+<status status="PASS" start="2025-02-16T14:33:52.856384" elapsed="0.002104"/>
+</kw>
+<status status="PASS" start="2025-02-16T14:32:44.273916" elapsed="68.584694"/>
+</suite>
+<statistics>
+<total>
+<stat pass="35" fail="0" skip="0">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat name="Telemetry Tests" id="s1" pass="35" fail="0" skip="0">Telemetry Tests</stat>
+</suite>
+</statistics>
+<errors>
+<msg time="2025-02-16T14:32:44.312611" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:32:46.327496" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:32:48.347138" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:32:50.365864" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:32:52.378351" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:32:54.389511" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:32:56.407472" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:32:58.421238" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:00.435260" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:02.448659" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:04.456218" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:06.470683" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:08.486387" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:10.499421" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:12.508850" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:14.520576" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:16.532705" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:18.542435" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:20.548119" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:22.551285" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:24.560418" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:26.578135" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:28.594738" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:30.611169" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:32.627006" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:34.640702" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:36.658927" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:38.674348" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:40.683539" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:42.688940" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:44.700820" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:46.715829" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:48.728507" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:50.740982" level="WARN">SocketcanBus was not properly shut down</msg>
+<msg time="2025-02-16T14:33:52.751814" level="WARN">SocketcanBus was not properly shut down</msg>
+</errors>
+</robot>
