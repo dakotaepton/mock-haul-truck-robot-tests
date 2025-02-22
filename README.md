@@ -1,7 +1,7 @@
 # mock-haul-truck-robot-tests
-Automated API testing suite for mining autonomy systems using Robot Framework. This project validates vehicle telemetry, diagnostics, and emergency stop functions with mock APIs. Includes data-driven testing, CI/CD integration with GitHub Actions, and detailed test reports.
+Automated testing suite for simulated haul truck CAN bus using Robot Framework. This project validates vehicle telemetry, diagnostics, and emergency stop values with a mock truck and CAN bus.
 
-# How to Setup Virtual CAN Bus (Must be using linux)
+## How to Setup Virtual CAN Bus (Must be using linux)
 
 Load the virtual CAN module
 `sudo modprobe vcan`
@@ -14,3 +14,15 @@ Bring it up
 
 Verify it exists
 `ip link show vcan0`
+
+## Install Python dependencies
+`pip install -r requirements.txt`
+
+## Run Robot Tests
+Ensure vcan0 is set up correctly.
+
+Go to tests folder
+`cd tests`
+
+Run tests
+`robot telemetry_tests.robot`
