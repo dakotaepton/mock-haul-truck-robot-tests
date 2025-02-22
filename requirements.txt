@@ -1,0 +1,8 @@
+# Robot Framework for writing and running tests
+robotframework
+
+# For CAN bus communication
+python-can
+
+# Robot Framework Process library to handle subprocesses
+robotframework-process
